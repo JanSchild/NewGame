@@ -1,7 +1,7 @@
 import { InputState } from "../shared/InputState.js";
 import { activeKeys } from "./keys.js";
 import { mySnake } from "./mySnake.js";
-import { Direction, directionFromVector } from "../shared/Direction.js";
+import { Direction, directionFromVector, oppositeDirection } from "../shared/Direction.js";
 
 export let input: InputState = {
     up: false,
@@ -33,6 +33,9 @@ export function sendInput() {
 
     let direction: Direction | undefined = directionFromVector(dx, dy);
     if (!direction) {
+        return;
+    }
+    if (direction == oppositeDirection(mySnake.direction)) {
         return;
     }
     mySnake.direction = direction;

@@ -22,3 +22,12 @@ export function directionFromVector(dx: number, dy: number): Direction | undefin
 export function directionToVector(direction: Direction) {
     return DIRECTIONS[direction];
 }
+
+export function oppositeDirection(direction: Direction): Direction {
+    let { dx, dy } = directionToVector(direction);
+    let oppositeDirection: Direction | undefined = directionFromVector(dx * (-1), dy * (-1));
+    if (!oppositeDirection) {
+        throw new Error(`Could not identify direction from dx: ${dx}, dy: ${dy}`);
+    }
+    return oppositeDirection;
+}
