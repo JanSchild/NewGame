@@ -8,7 +8,7 @@ import { SnakeMover } from "../shared/SnakeMover.js";
 let lastTime: number | null = null;
 
 function loop(time: number): void {
-    if (!lastTime) {
+    if (lastTime === null) {
         lastTime = time;
     }
     let deltaTime: number = time - lastTime;
