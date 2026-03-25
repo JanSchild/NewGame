@@ -18,7 +18,7 @@ export class SnakeMover {
     static moveAllSnakes(): void {
         world.snakes.forEach(snake => {
             SnakeMover.moveForward(snake);
-        })
+        });
     }
 
     static moveForward(snake: SnakeState): void {
