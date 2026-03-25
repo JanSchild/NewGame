@@ -1,0 +1,24 @@
+export let DIRECTIONS = {
+    up: { dx: 0, dy: -1 },
+    down: { dx: 0, dy: 1 },
+    left: { dx: -1, dy: 0 },
+    right: { dx: 1, dy: 0 }
+} as const;
+
+export type Direction = keyof typeof DIRECTIONS;
+
+export function randomDirection(): Direction {
+    let keys = Object.keys(DIRECTIONS) as Direction[];
+    return keys[Math.floor(Math.random() * keys.length)]
+}
+
+export function directionFromVector(dx: number, dy: number): Direction | undefined {
+    return (Object.keys(DIRECTIONS) as Direction[]).find(dir => {
+        let v = DIRECTIONS[dir];
+        return v.dx === dx && v.dy === dy;
+    });
+}
+
+export function directionToVector(direction: Direction) {
+    return DIRECTIONS[direction];
+}
