@@ -1,32 +1,11 @@
-/*
-import http from "http";
-import fs from "fs";
-import path from "path";
+import { wss } from "./wss.js";
 
-const server = http.createServer((req, res) => {
-    let filePath = "dist/client" + (req.url === "/" ? "/index.html" : req.url);
+wss.on("connection", (socket) => {
+    console.log("Client connected");
 
-    const ext = path.extname(filePath);
-
-    const contentType =
-        ext === ".js" ? "text/javascript" :
-            ext === ".html" ? "text/html" :
-                ext === ".css" ? "text/css" :
-                    "text/plain";
-
-    fs.readFile(filePath, (err, data) => {
-        if (err) {
-            res.writeHead(404);
-            res.end("Not found");
-            return;
-        }
-
-        res.writeHead(200, { "Content-Type": contentType });
-        res.end(data);
+    socket.on("message", (data) => {
+        console.log(data.toString());
     });
-});
 
-server.listen(3000, () => {
-    console.log("Server running at http://localhost:3000");
+    socket.send("hello from server");
 });
-*/
