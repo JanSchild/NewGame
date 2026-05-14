@@ -1,8 +1,9 @@
-import * as http from "http";
-import * as fs from "fs";
-import * as path from "path";
+import http from "http";
+import fs from "fs";
+import path from "path";
 
 import { SERVER_PORT } from "../shared/constants.js";
+import { httpLogger } from "./logger.js";
 
 export let server = http.createServer((request, response) => {
     let url = request.url ?? "/";
@@ -11,14 +12,14 @@ export let server = http.createServer((request, response) => {
         url = "/client/index.html";
     }
 
-    console.log(`Incoming request: ${url}`);
+    httpLogger.debug(`Incoming request: ${url}`);
 
     let clientPath = path.resolve("dist/client");
     let filePath = path.join(clientPath, url);
 
     fs.readFile(filePath, (error, data) => {
         if (error) {
-            console.error(`Could not read file: ${filePath}`);
+            httpLogger.error(`Could not read file: ${filePath}`);
             response.writeHead(404);
             response.end("File not found");
             return;
@@ -45,10 +46,10 @@ export let server = http.createServer((request, response) => {
         response.writeHead(200, { "Content-Type": contentType });
         response.end(data);
 
-        console.log(`Served: ${filePath}`);
+        httpLogger.debug(`Served: ${filePath}`);
     });
 });
 
 server.listen(SERVER_PORT, () => {
-    console.log(`Server running on port ${SERVER_PORT}`);
+    httpLogger.info(`Server running on port ${SERVER_PORT}`);
 });

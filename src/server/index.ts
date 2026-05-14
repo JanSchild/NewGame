@@ -1,10 +1,11 @@
 import { wss } from "./wss.js";
+import { wsLogger } from "./logger.js";
 
 wss.on("connection", (socket) => {
-    console.log("Client connected");
+    wsLogger.info("Client connected");
 
     socket.on("message", (data) => {
-        console.log(data.toString());
+        wsLogger.info(`Received message: ${data.toString()}`);
     });
 
     socket.send("hello from server");
