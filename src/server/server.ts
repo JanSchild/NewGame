@@ -1,6 +1,6 @@
-import http from "http";
-import fs from "fs";
-import path from "path";
+import http = require("http");
+import fs = require("fs");
+import path = require("path");
 
 import { SERVER_PORT } from "../shared/constants.js";
 import { httpLogger } from "./logger.js";

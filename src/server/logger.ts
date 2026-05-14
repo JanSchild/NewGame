@@ -1,4 +1,4 @@
-import pino from "pino";
+import pino = require("pino");
 
 export let logger = pino({
     level: "trace",
