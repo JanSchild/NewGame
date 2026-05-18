@@ -1,6 +1,6 @@
 import { InputState } from "../shared/InputState.js";
 import { activeKeys } from "./keys.js";
-import { mySnake } from "./mySnake.js";
+import { MySnake } from "./mySnake.js";
 import { Direction, directionFromVector, oppositeDirection } from "../shared/Direction.js";
 import { SocketManager } from "./SocketManager.js";
 import { ClientMessage } from "../shared/messages.js";
@@ -37,10 +37,10 @@ export function sendInput() {
     if (!direction) {
         return;
     }
-    if (direction == oppositeDirection(mySnake.direction)) {
+    if (direction == oppositeDirection(MySnake.getSnake().direction)) {
         return;
     }
-    mySnake.direction = direction;
+    MySnake.getSnake().direction = direction;
 
     let message: ClientMessage = {
         type: "input",

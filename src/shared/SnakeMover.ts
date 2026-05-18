@@ -1,27 +1,34 @@
 import { directionToVector } from "./Direction.js";
 import { SnakeSegment } from "./SnakeSegment.js";
 import { SnakeState } from "./SnakeState.js";
-import { world } from "../client/ClientWorld.js";
+import { ClientWorld } from "../client/ClientWorld.js";
 
 export class SnakeMover {
-    static movementClock: number = 0;
-    static timePerMovement: number = 250;
+    #world: ClientWorld;
+    #movementClock: number;
+    timePerMovement: number;
 
-    static increaseMovementClock(deltaTime: number) {
-        SnakeMover.movementClock += deltaTime;
-        if (SnakeMover.movementClock >= SnakeMover.timePerMovement) {
-            SnakeMover.movementClock -= SnakeMover.timePerMovement;
-            SnakeMover.moveAllSnakes();
+    constructor(world: ClientWorld, timePerMovement: number) {
+        this.#world = world;
+        this.#movementClock = 0;
+        this.timePerMovement = timePerMovement;
+    }
+
+    increaseMovementClock(deltaTime: number) {
+        this.#movementClock += deltaTime;
+        if (this.#movementClock >= this.timePerMovement) {
+            this.#movementClock -= this.timePerMovement;
+            this.moveAllSnakes();
         }
     }
 
-    static moveAllSnakes(): void {
-        world.snakes.forEach(snake => {
-            SnakeMover.moveForward(snake);
+    moveAllSnakes(): void {
+        this.#world.snakes.forEach(snake => {
+            this.moveForward(snake);
         });
     }
 
-    static moveForward(snake: SnakeState): void {
+    moveForward(snake: SnakeState): void {
         if (snake.segments.length < 1) {
             throw new Error(`Snake with ID ${snake.id} cannot move because it has no length`);
         }

@@ -47,13 +47,11 @@ export class ClientWorld {
     }
 
     killSnake(snake: SnakeState): void {
-        world.deadSnakes.set(snake.id, snake);
-        world.snakes.delete(snake.id);
+        this.deadSnakes.set(snake.id, snake);
+        this.snakes.delete(snake.id);
     }
 
     worldBoundaries(): Boundaries {
         return new Boundaries(0, this.width - 1, 0, this.height - 1);
     }
 }
-
-export let world: ClientWorld = new ClientWorld(20, 15);
