@@ -5,13 +5,24 @@ import { ClientMessage, ServerMessage } from "../shared/messages.js";
 export class SocketManager {
     static sockets: Map<string, WebSocket> = new Map();
 
-    static addSocket(clientId: string, socket: WebSocket) {
+    static addSocket(socket: WebSocket) {
+        let clientId: string = SocketManager.generateClientId();
         let existingSocket: WebSocket | undefined = this.sockets.get(clientId);
         if (existingSocket) {
             existingSocket.close(1000, "replaced by new connection");
         }
         SocketManager.sockets.set(clientId, socket);
         SocketManager.setupEventListeners(clientId, socket);
+        SocketManager.sendWelcomeMessage(clientId, socket);
+    }
+
+    static generateClientId(): string {
+        let clientId: string = `id-${Math.round(Math.random() * 100)}`;
+        wsLogger.info(`Assigned new client ID: ${clientId}`);
+        return clientId;
+    }
+
+    static sendWelcomeMessage(clientId: string, socket: WebSocket) {
         let welcomeMessage: ServerMessage = {
             type: "welcome",
             payload: {
