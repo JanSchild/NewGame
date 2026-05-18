@@ -41,7 +41,7 @@ export class SocketManager {
         }
     }
 
-    static setupEventListeners(id: string, socket: WebSocket) {
+    static setupEventListeners(clientId: string, socket: WebSocket) {
         socket.on("message", (data) => {
             let dataString: string = data.toString();
             let message: ClientMessage = JSON.parse(dataString);
@@ -50,7 +50,7 @@ export class SocketManager {
 
         socket.on("close", (code, reason) => {
             wsLogger.info(`Connection closed with code: ${code} and reason: ${reason.toString()}`);
-            SocketManager.removeSocket(id);
+            SocketManager.removeSocket(clientId);
         });
 
         socket.on("error", (err) => {
@@ -58,7 +58,7 @@ export class SocketManager {
         });
     }
 
-    static removeSocket(id: string) {
-        SocketManager.sockets.delete(id);
+    static removeSocket(clientId: string) {
+        SocketManager.sockets.delete(clientId);
     }
 }
