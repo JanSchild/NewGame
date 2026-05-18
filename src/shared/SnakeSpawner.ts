@@ -4,8 +4,7 @@ import { world } from "../client/ClientWorld.js";
 import { SnakeSegment } from "./SnakeSegment.js";
 
 export class SnakeSpawner {
-    static makeSnake(id: string, length: number): SnakeState | null {
-        let maxTries: number = 1000;
+    static tryToMakeSnake(id: string, length: number, maxTries: number): SnakeState | null {
         for (let i = 0; i < maxTries; i++) {
             try {
                 let direction: Direction = randomDirection();
