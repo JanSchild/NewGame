@@ -3,6 +3,7 @@ import { activeKeys } from "./keys.js";
 import { mySnake } from "./mySnake.js";
 import { Direction, directionFromVector, oppositeDirection } from "../shared/Direction.js";
 import { SocketManager } from "./SocketManager.js";
+import { ClientMessage } from "../shared/messages.js";
 
 export let input: InputState = {
     up: false,
@@ -40,5 +41,12 @@ export function sendInput() {
         return;
     }
     mySnake.direction = direction;
-    SocketManager.sendMessage(`Snake has new direction: ${direction}`);
+
+    let message: ClientMessage = {
+        type: "input",
+        payload: {
+            input
+        }
+    }
+    SocketManager.sendMessage(message);
 }

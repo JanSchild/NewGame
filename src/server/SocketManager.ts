@@ -1,31 +1,40 @@
 import { WebSocket } from "ws";
 import { wsLogger } from "./logger.js";
+import { ClientMessage, ServerMessage } from "../shared/messages.js";
 
 export class SocketManager {
     static sockets: Map<string, WebSocket> = new Map();
 
-    static addSocket(id: string, socket: WebSocket) {
-        let existingSocket: WebSocket | undefined = this.sockets.get(id);
+    static addSocket(clientId: string, socket: WebSocket) {
+        let existingSocket: WebSocket | undefined = this.sockets.get(clientId);
         if (existingSocket) {
             existingSocket.close(1000, "replaced by new connection");
         }
-        SocketManager.sockets.set(id, socket);
-        SocketManager.setupEventListeners(id, socket);
-        SocketManager.sendMessage(socket, `hello from server socket with id ${id}`);
+        SocketManager.sockets.set(clientId, socket);
+        SocketManager.setupEventListeners(clientId, socket);
+        let welcomeMessage: ServerMessage = {
+            type: "welcome",
+            payload: {
+                clientId
+            }
+        }
+        SocketManager.sendMessage(socket, welcomeMessage);
     }
 
-    static sendMessage(socket: WebSocket, message: any) {
+    static sendMessage(socket: WebSocket, message: ServerMessage) {
         if (socket.readyState === WebSocket.OPEN) {
-            socket.send(message);
-            wsLogger.debug(`Socket has sent message: ${message}`);
+            socket.send(JSON.stringify(message));
+            wsLogger.debug(`Server has sent message: ${JSON.stringify(message)}`);
         } else {
-            wsLogger.error(`Socket could not send message because it's not open. Socket state: ${socket.readyState}`);
+            wsLogger.error(`Server could not send message because socket is not open. Socket state: ${socket.readyState}`);
         }
     }
 
     static setupEventListeners(id: string, socket: WebSocket) {
         socket.on("message", (data) => {
-            wsLogger.info(`Received message: ${data.toString()}`);
+            let dataString: string = data.toString();
+            let message: ClientMessage = JSON.parse(dataString);
+            wsLogger.trace(`Received message: ${JSON.stringify(message)}`);
         });
 
         socket.on("close", (code, reason) => {

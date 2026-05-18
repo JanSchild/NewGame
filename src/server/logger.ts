@@ -1,7 +1,7 @@
 import pino = require("pino");
 
 export let logger = pino({
-    level: "info",
+    level: "trace",
     transport: {
         target: "pino-pretty"
     }
