@@ -19,6 +19,6 @@ export type ServerMessage =
     | {
         type: "death";
         payload: {
-            playerId: string;
+            clientId: string;
         };
     };

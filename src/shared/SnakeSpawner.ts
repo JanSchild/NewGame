@@ -4,7 +4,7 @@ import { world } from "../client/ClientWorld.js";
 import { SnakeSegment } from "./SnakeSegment.js";
 
 export class SnakeSpawner {
-    static tryToMakeSnake(id: string, length: number, maxTries: number): SnakeState | null {
+    static tryToSpawnSnake(id: string, length: number, maxTries: number): SnakeState | null {
         for (let i = 0; i < maxTries; i++) {
             try {
                 let direction: Direction = randomDirection();
@@ -21,6 +21,7 @@ export class SnakeSpawner {
                 }
                 return { id, segments, direction };
             } catch {
+                console.error(`Attempt #${i + 1}: Failed to spawn snake.`);
                 continue;
             }
         }
