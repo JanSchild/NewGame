@@ -13,9 +13,9 @@ export function randomDirection(): Direction {
 }
 
 export function directionFromVector(dx: number, dy: number): Direction | undefined {
-    return (Object.keys(DIRECTIONS) as Direction[]).find(dir => {
-        let v = DIRECTIONS[dir];
-        return v.dx === dx && v.dy === dy;
+    return (Object.keys(DIRECTIONS) as Direction[]).find(direction => {
+        let vector = DIRECTIONS[direction];
+        return vector.dx === dx && vector.dy === dy;
     });
 }
 
