@@ -1,4 +1,3 @@
-import { SERVER_PORT } from "../shared/constants.js";
 import { ClientMessage, ServerMessage } from "../shared/messages.js";
 import { GameLoop } from "./GameLoop.js";
 
@@ -15,6 +14,15 @@ export class SocketManager {
 
         console.log("starting socket: ", socket);
         SocketManager.setupEventListeners(socket);
+    }
+
+    static restartSocket() {
+        if (!this.#socket) {
+            console.error(`Cannot restart socket because there is no socket`);
+            return;
+        }
+        this.#socket.close();
+        SocketManager.startSocket(this.#gameLoop);
     }
 
     static getClientId(): string {
