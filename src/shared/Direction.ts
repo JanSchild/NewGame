@@ -12,6 +12,14 @@ export function randomDirection(): Direction {
     return keys[Math.floor(Math.random() * keys.length)]
 }
 
+export function randomDirectionFromDirections(allowedDirections: Direction[]): Direction | undefined {
+    if (!allowedDirections || allowedDirections.length === 0) {
+        console.error(`Cannot determine random direction from allowed directions: ${JSON.stringify(allowedDirections)}`);
+        return undefined;
+    }
+    return allowedDirections[Math.floor(Math.random() * allowedDirections.length)];
+}
+
 export function directionFromVector(dx: number, dy: number): Direction | undefined {
     return (Object.keys(DIRECTIONS) as Direction[]).find(direction => {
         let vector = DIRECTIONS[direction];
