@@ -1,21 +1,13 @@
-import { SnakeSegment } from "./SnakeSegment.js";
-import { SnakeState } from "./SnakeState.js";
-import { ClientWorld } from "../client/ClientWorld.js";
-import { Boundaries } from "./Boundaries.js";
+import { SnakeSegment } from "../shared/SnakeSegment.js";
+import { SnakeState } from "../shared/SnakeState.js";
+import { Boundaries } from "../shared/Boundaries.js";
+import { ServerWorld } from "./ServerWorld.js";
 
 export class SnakeCollider {
-    #world: ClientWorld;
+    #world: ServerWorld;
 
-    constructor(world: ClientWorld) {
+    constructor(world: ServerWorld) {
         this.#world = world;
-    }
-
-    checkAllSnakes(): void {
-        for (let snake of this.#world.snakes.values()) {
-            if (this.#snakeHasCollided(snake) || this.#snakeHasLeftMapBoundaries(snake)) {
-                this.#world.killSnake(snake);
-            }
-        }
     }
 
     #snakeHasCollided(snake: SnakeState): boolean {
@@ -35,5 +27,15 @@ export class SnakeCollider {
         let snakeHead: SnakeSegment = snake.segments[0];
         let boundaries: Boundaries = this.#world.worldBoundaries();
         return !boundaries.containsPoint(snakeHead.x, snakeHead.y);
+    }
+
+    getCollidedSnakes(): Set<SnakeState> {
+        let collidedSnakes: Set<SnakeState> = new Set();
+        for (let snake of this.#world.snakes.values()) {
+            if (this.#snakeHasCollided(snake) || this.#snakeHasLeftMapBoundaries(snake)) {
+                collidedSnakes.add(snake);
+            }
+        }
+        return collidedSnakes;
     }
 }

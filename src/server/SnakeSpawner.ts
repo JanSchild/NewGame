@@ -1,12 +1,12 @@
-import { SnakeState } from "./SnakeState.js";
-import { Direction, directionToVector, randomDirection } from "./Direction.js";
-import { ClientWorld } from "../client/ClientWorld.js";
-import { SnakeSegment } from "./SnakeSegment.js";
+import { SnakeState } from "../shared/SnakeState.js";
+import { Direction, directionToVector, randomDirection } from "../shared/Direction.js";
+import { SnakeSegment } from "../shared/SnakeSegment.js";
+import { ServerWorld } from "./ServerWorld.js";
 
 export class SnakeSpawner {
-    #world: ClientWorld;
+    #world: ServerWorld;
 
-    constructor(world: ClientWorld) {
+    constructor(world: ServerWorld) {
         this.#world = world;
     }
 

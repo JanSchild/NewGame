@@ -5,4 +5,5 @@ export interface SnakeState {
     id: string,
     segments: SnakeSegment[],
     direction: Direction
+    // TODO: color, oder eher player.color? Die Farbe muss ja nicht jedes Mal mitgeschickt werden
 }

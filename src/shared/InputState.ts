@@ -3,5 +3,4 @@ export interface InputState {
     down: boolean;
     left: boolean;
     right: boolean;
-    sequence: number;
 }

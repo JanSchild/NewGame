@@ -4,6 +4,7 @@ import { TILE_SIZE } from "../shared/constants.js";
 let border = 1;
 
 export function render(ctx: CanvasRenderingContext2D, world: ClientWorld) {
+    //console.log("render", world);
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     renderBackground(ctx, world);
     renderSnakes(ctx, world);

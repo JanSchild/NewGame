@@ -1,11 +1,15 @@
 import { SERVER_PORT } from "../shared/constants.js";
 import { ClientMessage, ServerMessage } from "../shared/messages.js";
+import { GameLoop } from "./GameLoop.js";
 
 export class SocketManager {
     static #socket: WebSocket | undefined;
     static #clientId: string | undefined;
+    static #gameLoop: GameLoop;
 
-    static startSocket() {
+    static startSocket(gameLoop: GameLoop) {
+        SocketManager.#gameLoop = gameLoop;
+
         let socket = new WebSocket(`ws://localhost:${SERVER_PORT}`);
         console.log("starting socket: ", socket);
         SocketManager.setupEventListeners(socket);
@@ -33,6 +37,17 @@ export class SocketManager {
                 case "welcome":
                     SocketManager.#clientId = message.payload.clientId;
                     console.log(`ClientID: ${SocketManager.getClientId()}`);
+                    break;
+                case "initializeWorld":
+                    let width: number = message.payload.width;
+                    let height: number = message.payload.height;
+                    this.#gameLoop.createWorld(width, height);
+                    break;
+                case "gameState":
+                    this.#gameLoop.syncGameState(message.payload.snakes);
+                    break;
+                case "deaths":
+                    this.#gameLoop.killSnakes(message.payload.clientIds);
                     break;
                 default:
                     console.error(`Unhandled message type '${message.type}'`);
