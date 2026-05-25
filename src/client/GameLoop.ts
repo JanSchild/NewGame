@@ -3,7 +3,7 @@ import { ClientWorld } from "./ClientWorld.js";
 import { ctx } from "./ctx.js";
 import { sendInput } from "./input.js";
 import { endKeyLoop } from "./keys.js";
-import { render } from "./render.js";
+import { renderLoadingScreen, renderGame } from "./render.js";
 
 export class GameLoop {
     #world: ClientWorld | undefined;
@@ -14,12 +14,13 @@ export class GameLoop {
 
     loop = () => {
         if (!this.#world) {
+            renderLoadingScreen(ctx);
             requestAnimationFrame(this.loop);
             return;
         }
 
         sendInput();
-        render(ctx, this.#world);
+        renderGame(ctx, this.#world);
         endKeyLoop();
         requestAnimationFrame(this.loop);
     }

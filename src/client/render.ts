@@ -3,8 +3,23 @@ import { TILE_SIZE } from "../shared/constants.js";
 
 let border = 1;
 
-export function render(ctx: CanvasRenderingContext2D, world: ClientWorld) {
-    //console.log("render", world);
+export function renderLoadingScreen(ctx: CanvasRenderingContext2D) {
+    let canvas: HTMLCanvasElement = ctx.canvas;
+
+    // clear screen
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // text styling
+    ctx.fillStyle = "#000000";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.font = "12px Arial";
+
+    // main text
+    ctx.fillText("Connecting...", canvas.width / 2, canvas.height / 2);
+}
+
+export function renderGame(ctx: CanvasRenderingContext2D, world: ClientWorld) {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     renderBackground(ctx, world);
     renderSnakes(ctx, world);
