@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:client": "npx tsc -p tsconfig.client.json  && cp src/client/index.html dist/client/client/index.html",
     "build:server": "npx tsc -p tsconfig.server.json",
-    "start:server": "node dist/server/server/index.js"
+    "start:server": "node dist/server/server/index.js",
+    "build": "npm run build:client && npm run build:server",
+    "start": "start:server"
   },
   "type": "module",
   "keywords": [],
