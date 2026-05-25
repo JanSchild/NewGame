@@ -1,5 +1,5 @@
 import { Boundaries } from "../shared/Boundaries.js";
-import { Direction, directionFromVector } from "../shared/Direction.js";
+import { Direction, directionFromVector, oppositeDirection } from "../shared/Direction.js";
 import { InputState } from "../shared/InputState.js";
 import { SnakeSegment } from "../shared/SnakeSegment.js";
 import { SnakeState } from "../shared/SnakeState.js";
@@ -20,7 +20,7 @@ export class ServerWorld {
         this.snakes.set(clientId, snake);
     }
 
-    setSnakeDirection(clientId: string, input: InputState) {
+    setSnakeDirection(clientId: string, input: InputState): void {
         let snake: SnakeState | undefined = this.snakes.get(clientId);
         if (!snake) {
             gameLogger.error(`Can't find snake with id:${clientId}`);
@@ -35,13 +35,16 @@ export class ServerWorld {
         if (input.up) dy--;
         if (input.down) dy++;
 
-        let direction: Direction | undefined = directionFromVector(dx, dy);
-        if (!direction) {
+        let newDirection: Direction | undefined = directionFromVector(dx, dy);
+        if (!newDirection) {
             gameLogger.error(`Can't get direction from dx:${dx} dy:${dy}`);
             return;
         }
-        gameLogger.trace(`New direction: ${direction}`);
-        snake.direction = direction;
+        if (newDirection == oppositeDirection(snake.direction)) {
+            return;
+        }
+        gameLogger.trace(`New direction: ${newDirection}`);
+        snake.direction = newDirection;
     }
 
     coordinateIsFree(x: number, y: number): boolean {
