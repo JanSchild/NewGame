@@ -22,8 +22,8 @@ export function renderLoadingScreen(ctx: CanvasRenderingContext2D) {
 export function renderGame(ctx: CanvasRenderingContext2D, world: ClientWorld) {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     renderBackground(ctx, world);
-    renderSnakes(ctx, world);
     renderDeadSnakes(ctx, world);
+    renderSnakes(ctx, world);
 }
 
 function renderBackground(ctx: CanvasRenderingContext2D, world: ClientWorld) {
