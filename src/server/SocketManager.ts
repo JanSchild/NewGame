@@ -26,7 +26,7 @@ export class SocketManager {
     }
 
     generateClientId(): string {
-        let clientId: string = `id-${Math.round(Math.random() * 100)}`;
+        let clientId: string = `id-${Math.round(Math.random() * 100000)}`;
         wsLogger.info(`Assigned new client ID: ${clientId}`);
         return clientId;
     }
