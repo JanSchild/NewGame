@@ -36,6 +36,13 @@ export class GameLoop {
         this.#world.sync(snakes);
     }
 
+    getSnake(clientId: string): SnakeState | undefined {
+        if (!this.#world) {
+            return undefined;
+        }
+        return this.#world.getSnake(clientId);
+    }
+
     killSnakes(clientIds: string[]) {
         if (!this.#world) {
             return;

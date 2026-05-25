@@ -1,4 +1,5 @@
 import { ClientMessage, ServerMessage } from "../shared/messages.js";
+import { SnakeState } from "../shared/SnakeState.js";
 import { GameLoop } from "./GameLoop.js";
 
 export class SocketManager {
@@ -25,11 +26,20 @@ export class SocketManager {
         SocketManager.startSocket(this.#gameLoop);
     }
 
-    static getClientId(): string {
+    static getClientId(): string | undefined {
         if (!SocketManager.#clientId) {
-            throw new Error(`clientId is undefined`);
+            console.error(`clientId is undefined`);
+            return undefined;
         }
         return SocketManager.#clientId;
+    }
+
+    static getSnake(): SnakeState | undefined {
+        let clientId: string | undefined = SocketManager.getClientId();
+        if (!clientId) {
+            return undefined;
+        }
+        return this.#gameLoop.getSnake(clientId);
     }
 
     static setupEventListeners(socket: WebSocket) {

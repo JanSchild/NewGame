@@ -23,7 +23,7 @@ export class ServerWorld {
     setSnakeDirection(clientId: string, input: InputState): void {
         let snake: SnakeState | undefined = this.snakes.get(clientId);
         if (!snake) {
-            gameLogger.error(`Can't find snake with id:${clientId}`);
+            gameLogger.fatal(`Can't find snake with id:${clientId}`);
             return;
         }
 

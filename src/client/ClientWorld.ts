@@ -11,6 +11,10 @@ export class ClientWorld {
         this.height = height;
     }
 
+    getSnake(clientId: string): SnakeState | undefined {
+        return this.snakes.get(clientId);
+    }
+
     sync(snakes: SnakeState[]): void {
         for (let snake of snakes) {
             this.snakes.set(snake.id, snake);

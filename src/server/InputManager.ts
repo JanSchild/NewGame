@@ -1,5 +1,4 @@
 import { InputState } from "../shared/InputState.js";
-import { gameLogger } from "./logger.js";
 
 export class InputManager {
     #inputs: Map<string, InputState> = new Map();
