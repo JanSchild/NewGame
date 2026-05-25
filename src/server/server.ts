@@ -8,10 +8,6 @@ import { httpLogger } from "./logger.js";
 export let server = http.createServer((request, response) => {
     let url = request.url ?? "/";
 
-    if (url === "/") {
-        url = "/client/index.html";
-    }
-
     httpLogger.debug(`Incoming request: ${url}`);
 
     let clientPath = path.resolve("dist/client");
