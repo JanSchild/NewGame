@@ -13,6 +13,6 @@ function resize(): void {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 }
-resize();
+//resize();
 
-window.addEventListener("resize", resize);
+//window.addEventListener("resize", resize);
