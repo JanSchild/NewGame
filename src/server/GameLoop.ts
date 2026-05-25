@@ -121,10 +121,9 @@ export class GameLoop {
         }
         this.#inputManager.clearInputs();
         this.#snakeMover.increaseMovementClock(seconds);
+        this.#socketManager.sendGameState(Array.from(this.#world.snakes.values()));
         let collidedSnakes: Set<SnakeState> = this.#snakeCollider.getCollidedSnakes();
         this.#world.killSnakes(collidedSnakes);
         this.#socketManager.sendDeathMessage(collidedSnakes);
-        this.#socketManager.sendGameState(Array.from(this.#world.snakes.values()));
-        this.#world.removeDeadSnakes();
     }
 }

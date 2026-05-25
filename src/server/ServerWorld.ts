@@ -75,14 +75,8 @@ export class ServerWorld {
         for (let snake of snakes) {
             gameLogger.debug(`Killed snake with ID ${snake.id}`);
             this.deadSnakes.set(snake.id, snake);
-        }
-    }
-
-    removeDeadSnakes() {
-        for (let snake of this.deadSnakes.values()) {
             this.snakes.delete(snake.id);
         }
-        this.deadSnakes.clear();
     }
 
     worldBoundaries(): Boundaries {
