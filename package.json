@@ -9,7 +9,7 @@
     "build:server": "npx tsc -p tsconfig.server.json",
     "start:server": "node dist/server/server/index.js",
     "build": "npm run build:client && npm run build:server",
-    "start": "start:server"
+    "start": "npm run start:server"
   },
   "type": "module",
   "keywords": [],
