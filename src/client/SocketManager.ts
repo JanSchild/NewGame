@@ -10,7 +10,9 @@ export class SocketManager {
     static startSocket(gameLoop: GameLoop) {
         SocketManager.#gameLoop = gameLoop;
 
-        let socket = new WebSocket(`ws://localhost:${SERVER_PORT}`);
+        let wsProtocol = window.location.protocol === "https:" ? "wss:" : "ws:";
+        let socket = new WebSocket(`${wsProtocol}//${window.location.host}`);
+
         console.log("starting socket: ", socket);
         SocketManager.setupEventListeners(socket);
     }
